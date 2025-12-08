@@ -1,0 +1,29 @@
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  :root {
+    --topbar-h: 98px;
+  }
+
+  .topbar {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .topbar-right {
+    justify-content: space-between;
+  }
+
+  .split {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .left {
+    border-right: 0;
+    border-bottom: 1px solid #dcdcdc;
+  }
+
+  .gallery-item {
+    height: 60vh;
+  }
+}

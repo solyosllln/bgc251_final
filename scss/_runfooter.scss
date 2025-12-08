@@ -1,0 +1,36 @@
+/* RUNNING FOOTER (marquee) */
+.run-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--runfooter-h);
+  border-top: 1px solid #dcdcdc;
+  background: #fff;
+  z-index: 12;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.run-track {
+  display: flex;
+  width: max-content;
+  animation: runMarquee 22s linear infinite;
+}
+
+.run-text {
+  white-space: nowrap;
+  padding-right: 40px;
+}
+
+@keyframes runMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

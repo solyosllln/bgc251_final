@@ -1,0 +1,69 @@
+/* MAIN PAGE TOPBAR */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 180px 1fr 260px;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid #dcdcdc;
+  background: #fff;
+  font-size: 12px;
+  line-height: 1.4;
+  min-height: var(--topbar-h);
+}
+
+.topbar-left {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.topbar-center {
+  opacity: 0.85;
+}
+
+.topbar-link {
+  margin-left: 6px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* 오른쪽 텍스트 + 유튜브 뱃지 가로 정렬 */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.topbar-right-text {
+  text-align: right;
+  opacity: 0.9;
+  line-height: 1.35;
+}
+
+/* YouTube Badge */
+.yt-badge {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover {
+    transform: scale(1.06);
+    opacity: 0.9;
+  }
+}

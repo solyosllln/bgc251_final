@@ -1,0 +1,6 @@
+/* SPLIT LAYOUT */
+.split {
+  display: grid;
+  grid-template-columns: 44% 56%;
+  height: calc(100vh - var(--topbar-h));
+}

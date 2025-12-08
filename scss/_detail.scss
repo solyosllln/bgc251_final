@@ -1,0 +1,86 @@
+/* DETAIL OVERLAY (click only) */
+.detail-overlay {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  overflow-y: auto;
+  padding: 24px 24px calc(24px + var(--runfooter-h));
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.detail-close {
+  position: sticky;
+  top: 0;
+  margin-left: auto;
+  display: block;
+  border: 1px solid #111;
+  background: #fff;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.detail-content {
+  padding-top: 14px;
+}
+
+.detail-title {
+  font-size: 28px;
+  margin: 0 0 6px;
+}
+
+.detail-sub {
+  font-size: 12px;
+  opacity: 0.6;
+  margin: 0 0 14px;
+}
+
+.detail-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+/* 사진 + 캡션 */
+.detail-gallery {
+  display: grid;
+  gap: 18px;
+}
+
+.detail-figure {
+  margin: 0;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+
+.detail-caption {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #111;
+}
+
+.detail-credit {
+  margin-top: 4px;
+  font-size: 11px;
+  opacity: 0.55;
+}

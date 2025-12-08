@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+/* VARIABLES (겹침 방지 핵심) */
+:root {
+  --topbar-h: 72px;
+  --runfooter-h: 32px;
+}
+
+/* ===== Reset ===== */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: #0b0b0b;
+  background: #fff;
+  cursor: none; /* 커스텀 커서 쓰니까 기본 커서 숨김 */
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}

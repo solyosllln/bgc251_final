@@ -1,0 +1,23 @@
+/* CUSTOM CURSOR + TRAILS */
+#cursor-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  transform: translate(-50%, -50%);
+  background: url('../assets/cursor/cursor.png') center/contain no-repeat;
+  will-change: transform;
+
+  &.trail {
+    opacity: 0.25;
+    filter: blur(0.4px);
+  }
+}
