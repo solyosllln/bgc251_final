@@ -10,7 +10,10 @@
   }
 
   .topbar-right {
-    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
   }
 
   .split {

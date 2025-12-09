@@ -1,6 +1,6 @@
 /* SPLIT LAYOUT */
 .split {
   display: grid;
-  grid-template-columns: 44% 56%;
-  height: calc(100vh - var(--topbar-h));
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  height: calc(100vh - var(--topbar-h) - var(--runfooter-h));
 }

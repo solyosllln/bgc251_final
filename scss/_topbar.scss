@@ -40,12 +40,21 @@
 }
 
 .topbar-right-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   text-align: right;
+  line-height: 1;
+  white-space: nowrap;
   opacity: 0.9;
-  line-height: 1.35;
+
+  a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 }
 
-/* YouTube Badge */
+/* YouTube Badge (기존 유지해도 OK) */
 .yt-badge {
   width: 48px;
   height: 48px;
