@@ -257,10 +257,9 @@ if (poseCanvas) {
 }
 
 /* =========================================================
-   3) INTRO PAGE (NEW): TRUE INFINITE SLIDER
-      + DOTS + ARROWS + DRAG
-      + Active Rotate-in/out + 3D Parallax Hover
-      ✅ base rotation(--base-rot) 유지 버전
+   3) INTRO PAGE (NEW): REAL SEAMLESS INFINITE SLIDER
+      - 다중 클론 + scrollLeft 보정 방식
+      - 끊김 없이 1-2-...-8-1-2... 자연 반복
 ========================================================= */
 document.addEventListener('DOMContentLoaded', () => {
   const isIntro = document.body.classList.contains('intro-page');
@@ -276,33 +275,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!gallery || !track || !dotsWrap) return;
 
-  let cards = Array.from(track.querySelectorAll('.intro-card'));
-  if (cards.length < 2) return;
+  // ====== 원본 카드 수집 ======
+  const originalCards = Array.from(track.querySelectorAll('.intro-card'));
+  const realCount = originalCards.length;
+  if (realCount < 2) return;
 
-  /* ---------- 로고/ENTER 클릭 → main.html ---------- */
+  // 로고/ENTER → main
   const goMain = () => (location.href = 'main.html');
   logoBtn?.addEventListener('click', goMain);
   enterBtnTop?.addEventListener('click', goMain);
 
-  /* =========================================================
-     1) 앞/뒤 클론 생성 (1장씩)
-  ========================================================= */
-  const firstClone = cards[0].cloneNode(true);
-  const lastClone = cards[cards.length - 1].cloneNode(true);
-  firstClone.classList.add('is-clone');
-  lastClone.classList.add('is-clone');
+  // track gap px 읽기 (vw라도 computedStyle엔 px로 들어옴)
+  const trackStyle = getComputedStyle(track);
+  const gapPx = parseFloat(trackStyle.columnGap || trackStyle.gap || '0') || 0;
 
-  track.appendChild(firstClone);
-  track.insertBefore(lastClone, cards[0]);
+  // 카드 평균 폭 구해서 “화면을 채울 정도의 클론 개수(K)” 계산
+  const avgCardW =
+    originalCards.reduce((s, c) => s + c.offsetWidth, 0) / realCount;
+  const K = Math.max(
+    2,
+    Math.ceil(gallery.clientWidth / (avgCardW + gapPx)) + 1
+  );
 
-  // 다시 수집 (클론 포함)
-  cards = Array.from(track.querySelectorAll('.intro-card'));
-  const realCards = cards.slice(1, cards.length - 1);
-  const realCount = realCards.length;
+  // ====== loopWidth(원본 한 바퀴의 길이) 계산 ======
+  const loopWidth =
+    originalCards.reduce((s, c) => s + c.offsetWidth, 0) +
+    gapPx * (realCount - 1);
 
-  /* =========================================================
-     2) dots 생성 
-  ========================================================= */
+  // ====== 클론 생성 ======
+  const prependClones = [];
+  const appendClones = [];
+
+  for (let i = 0; i < K; i++) {
+    const last = originalCards[realCount - 1 - i].cloneNode(true);
+    last.classList.add('is-clone');
+    prependClones.unshift(last); // 순서 유지
+
+    const first = originalCards[i].cloneNode(true);
+    first.classList.add('is-clone');
+    appendClones.push(first);
+  }
+
+  // DOM 삽입
+  prependClones.forEach((c) => track.insertBefore(c, track.firstChild));
+  appendClones.forEach((c) => track.appendChild(c));
+
+  // “전체 카드(클론 포함) / 실제 카드(원본만)” 재수집
+  const cardsAll = Array.from(track.querySelectorAll('.intro-card'));
+  const realCards = cardsAll.slice(K, K + realCount); // 가운데 원본 구간
+
+  // ====== dots 생성 (원본 기준) ======
   dotsWrap.innerHTML = '';
   realCards.forEach((_, i) => {
     const dot = document.createElement('button');
@@ -314,55 +336,28 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   const dots = Array.from(dotsWrap.querySelectorAll('.intro-dot'));
 
-  /* =========================================================
-     3) scroll helpers
-  ========================================================= */
-  function getCardCenterLeft(card) {
-    return card.offsetLeft + card.offsetWidth / 2;
-  }
+  // ====== scroll helper ======
+  const getCenterLeft = (card) => card.offsetLeft + card.offsetWidth / 2;
 
   function scrollToCard(card, smooth = true) {
-    const left = getCardCenterLeft(card) - gallery.clientWidth / 2;
+    const left = getCenterLeft(card) - gallery.clientWidth / 2;
     gallery.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
   }
-
   function scrollToRealIndex(i, smooth = true) {
     scrollToCard(realCards[i], smooth);
   }
 
-  // 초기 위치 = 첫 실제 카드
+  // 초기 위치: 원본 첫 카드가 중앙
   scrollToRealIndex(0, false);
 
-  /* =========================================================
-     4) active 계산 (실제 카드 기준)
-  ========================================================= */
-  function getCardCenterLeft(card) {
-    return card.offsetLeft + card.offsetWidth / 2;
-  }
-
+  // ====== active index 계산 (원본 기준) ======
   function getActiveRealIndex() {
     const centerX = gallery.scrollLeft + gallery.clientWidth / 2;
     let bestIdx = 0;
     let bestDist = Infinity;
 
     realCards.forEach((card, i) => {
-      const dist = Math.abs(centerX - getCardCenterLeft(card));
-      if (dist < bestDist) {
-        bestDist = dist;
-        bestIdx = i;
-      }
-    });
-    return bestIdx;
-  }
-
-  // ✅ "전체(cards=클론 포함)" 중 중앙에 가장 가까운 카드 찾기
-  function getActiveAllIndex() {
-    const centerX = gallery.scrollLeft + gallery.clientWidth / 2;
-    let bestIdx = 0;
-    let bestDist = Infinity;
-
-    cards.forEach((card, i) => {
-      const dist = Math.abs(centerX - getCardCenterLeft(card));
+      const dist = Math.abs(centerX - getCenterLeft(card));
       if (dist < bestDist) {
         bestDist = dist;
         bestIdx = i;
@@ -374,122 +369,84 @@ document.addEventListener('DOMContentLoaded', () => {
   let prevActiveCard = null;
 
   function updateUI() {
-    const realIdx = getActiveRealIndex(); // dots/논리용
-    const allIdx = getActiveAllIndex(); // 비주얼 active용(클론 포함)
+    const realIdx = getActiveRealIndex();
+    const activeCard = realCards[realIdx];
 
-    const activeRealCard = realCards[realIdx];
-    const activeAllCard = cards[allIdx];
-
-    // 이전 active rotate-out 표시 (실제 카드 기준)
-    if (prevActiveCard && prevActiveCard !== activeRealCard) {
+    if (prevActiveCard && prevActiveCard !== activeCard) {
       prevActiveCard.classList.add('is-leaving');
       setTimeout(() => prevActiveCard.classList.remove('is-leaving'), 550);
     }
 
-    // ✅ dots는 실제 카드 기준
     dots.forEach((d, i) => d.classList.toggle('is-active', i === realIdx));
 
-    // ✅ 비주얼 active는 "클론 포함 전체" 기준으로 붙여서 끊김 제거
-    cards.forEach((c, i) => c.classList.toggle('is-active', i === allIdx));
+    // active는 “전체 카드 중 중앙에 가까운 것”으로
+    const centerX = gallery.scrollLeft + gallery.clientWidth / 2;
+    let bestAllIdx = 0;
+    let bestAllDist = Infinity;
+    cardsAll.forEach((card, i) => {
+      const dist = Math.abs(centerX - getCenterLeft(card));
+      if (dist < bestAllDist) {
+        bestAllDist = dist;
+        bestAllIdx = i;
+      }
+    });
+    cardsAll.forEach((c, i) =>
+      c.classList.toggle('is-active', i === bestAllIdx)
+    );
 
-    prevActiveCard = activeRealCard;
+    prevActiveCard = activeCard;
     return realIdx;
   }
 
   updateUI();
 
-  /* =========================================================
-     5) 클론 구간 도달 시 "스크롤 끝난 뒤" 자연 텔레포트
-        (끊김 제거 핵심)
-  ========================================================= */
-  function fixInfiniteLoopIfNeeded() {
-    const centerX = gallery.scrollLeft + gallery.clientWidth / 2;
-
-    const firstCloneCenter = getCardCenterLeft(firstClone);
-    const lastCloneCenter = getCardCenterLeft(lastClone);
-
-    const TOL = realCards[0].offsetWidth * 0.35; // ✅ 여유 구간
-
-    // 뒤쪽 클론(=firstClone)이 중앙 근처면 → 0번 실제로 순간이동
-    if (Math.abs(centerX - firstCloneCenter) < TOL) {
-      scrollToRealIndex(0, false);
-    }
-
-    // 앞쪽 클론(=lastClone)이 중앙 근처면 → 마지막 실제로 순간이동
-    if (Math.abs(centerX - lastCloneCenter) < TOL) {
-      scrollToRealIndex(realCount - 1, false);
-    }
-  }
-
-  // ✅ scroll debounce로 "스크롤 끝났을 때만" teleport
-  let scrollEndTimer = null;
-  gallery.addEventListener('scroll', () => {
-    updateUI();
-
-    clearTimeout(scrollEndTimer);
-    scrollEndTimer = setTimeout(() => {
-      fixInfiniteLoopIfNeeded();
-    }, 120); // 80~150ms 사이 취향 조절 가능
-  });
-  /* =========================================================
-     5) 스냅 끝나면 클론 구간 보정(텔레포트)
-     - 후루룩 돌아감 방지 핵심
-  ========================================================= */
-  function fixInfiniteLoopIfNeeded() {
-    const maxScroll = gallery.scrollWidth - gallery.clientWidth;
+  // ====== 진짜 무한루프 보정 ======
+  function fixInfiniteLoop() {
     const left = gallery.scrollLeft;
 
-    // 앞쪽 lastClone 영역 도달 → 마지막 real로 순간 이동
-    if (left <= 2) {
-      scrollToRealIndex(realCount - 1, false);
+    // 원본 구간의 시작/끝 기준선
+    const startBoundary = getCenterLeft(realCards[0]) - gallery.clientWidth / 2;
+    const endBoundary =
+      getCenterLeft(realCards[realCount - 1]) - gallery.clientWidth / 2;
+
+    // 왼쪽 클론 영역으로 너무 들어가면 → 오른쪽으로 loopWidth만큼 점프
+    if (left < startBoundary - loopWidth * 0.5) {
+      gallery.scrollLeft += loopWidth;
+      return;
     }
 
-    // 뒤쪽 firstClone 영역 도달 → 첫 real로 순간 이동
-    if (left >= maxScroll - 2) {
-      scrollToRealIndex(0, false);
+    // 오른쪽 클론 영역으로 너무 들어가면 → 왼쪽으로 loopWidth만큼 점프
+    if (left > endBoundary + loopWidth * 0.5) {
+      gallery.scrollLeft -= loopWidth;
+      return;
     }
   }
 
+  // scroll-snap 끝나고 “살짝 늦게” 보정 (끊김/후루룩 방지)
   let snapTimer = null;
   gallery.addEventListener('scroll', () => {
     updateUI();
-
     clearTimeout(snapTimer);
     snapTimer = setTimeout(() => {
-      fixInfiniteLoopIfNeeded();
+      fixInfiniteLoop();
       updateUI();
-    }, 140);
+    }, 120);
   });
 
-  /* =========================================================
-   6) arrows (진짜 무한 루프: 방향 유지)
-========================================================= */
+  // ====== arrows ======
   function goSlide(dir) {
     const idx = updateUI();
+    let next = idx + dir;
 
-    // 마지막에서 → 누르면 "뒤에 붙인 firstClone"으로 먼저 이동
-    if (dir === 1 && idx === realCount - 1) {
-      scrollToCard(firstClone, true);
-      return;
-    }
+    if (next < 0) next = realCount - 1;
+    if (next >= realCount) next = 0;
 
-    // 첫번째에서 ← 누르면 "앞에 붙인 lastClone"으로 먼저 이동
-    if (dir === -1 && idx === 0) {
-      scrollToCard(lastClone, true);
-      return;
-    }
-
-    // 그 외에는 정상 이동
-    let nextIdx = idx + dir;
-    scrollToRealIndex(nextIdx, true);
+    scrollToRealIndex(next, true);
   }
-
   prevBtn?.addEventListener('click', () => goSlide(-1));
   nextBtn?.addEventListener('click', () => goSlide(1));
 
-  /* =========================================================
-     7) wheel -> horizontal
-  ========================================================= */
+  // ====== wheel → horizontal ======
   gallery.addEventListener(
     'wheel',
     (e) => {
@@ -499,9 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { passive: false }
   );
 
-  /* =========================================================
-     8) drag / swipe
-  ========================================================= */
+  // ====== drag / swipe ======
   let isDown = false;
   let startX = 0;
   let startScroll = 0;
@@ -513,20 +468,15 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.setPointerCapture(e.pointerId);
     resetAllTilt();
   });
-
   gallery.addEventListener('pointermove', (e) => {
     if (!isDown) return;
     const dx = e.clientX - startX;
     gallery.scrollLeft = startScroll - dx;
   });
-
   gallery.addEventListener('pointerup', () => (isDown = false));
   gallery.addEventListener('pointercancel', () => (isDown = false));
 
-  /* =========================================================
-     9) 3D / PARALLAX HOVER (active 카드만)
-     ✅ base-rot 포함
-  ========================================================= */
+  // ====== 3D / PARALLAX HOVER (active 카드만) ======
   const MAX_TILT = 10;
   const IMG_SHIFT = 14;
   const SCALE_HOVER = 1.03;
@@ -580,7 +530,6 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('pointerleave', () => resetTilt(card));
   });
 });
-
 /* =========================================================
    4) MAIN PAGE: Hover Preview Gallery
 ========================================================= */
@@ -620,6 +569,76 @@ const DETAIL_DATA = {
       { src: 'assets/images/p2.jpg', caption: '어부들의 전통 식사에서 유래.' },
       { src: 'assets/images/p2_2.jpg', caption: '요즘은 포케볼 형태로 변주.' },
     ],
+  },
+  plate: {
+    title: 'Plate Lunch',
+    subtitle: '플레이트런치',
+    desc: '밥+메인+사이드가 한 접시에 나오는 하와이식 정식.',
+    images: [{ src: 'assets/images/p3.jpg', caption: '하와이 로컬 런치.' }],
+  },
+  loco: {
+    title: 'Loco Moco',
+    subtitle: '로코모코',
+    desc: '밥 위에 햄버그+계란프라이+그레이비 소스를 얹은 소울푸드.',
+    images: [{ src: 'assets/images/p4.jpg', caption: '힐로에서 시작.' }],
+  },
+  shave: {
+    title: 'Shave ice',
+    subtitle: '쉐이브 아이스',
+    desc: '가늘게 간 얼음 위에 시럽을 듬뿍 뿌린 하와이식 디저트.',
+    images: [
+      { src: 'assets/images/p5.jpg', caption: '무더운 하와이 필수 디저트.' },
+    ],
+  },
+  malasada: {
+    title: 'Malasadas',
+    subtitle: '말라사다',
+    desc: '포르투갈 이민자 문화에서 온 하와이식 도넛.',
+    images: [{ src: 'assets/images/p6.jpg', caption: '로컬 스타일 도넛.' }],
+  },
+  kalua: {
+    title: 'Kalua Pig',
+    subtitle: '칼루아 피그',
+    desc: '지하 화덕 이무(imū)로 익힌 돼지고기 전통 요리.',
+    images: [{ src: 'assets/images/p7.jpg', caption: '루아우 잔치 대표.' }],
+  },
+  laulau: {
+    title: 'Laulau',
+    subtitle: '라우라우',
+    desc: '타로잎에 고기나 생선을 싸서 찐 전통 음식.',
+    images: [{ src: 'assets/images/p8.jpg', caption: '전통 조리법.' }],
+  },
+  poi: {
+    title: 'Poi',
+    subtitle: '포이',
+    desc: '타로를 으깨 발효시킨 전통 음식.',
+    images: [{ src: 'assets/images/p9.jpg', caption: '원주민 식문화 핵심.' }],
+  },
+  butter: {
+    title: 'Butter Mochi',
+    subtitle: '버터모치',
+    desc: '찹쌀가루+코코넛+버터로 만든 쫀득 디저트.',
+    images: [{ src: 'assets/images/p10.jpg', caption: '모치+로컬 재료 결합.' }],
+  },
+  saimin: {
+    title: 'Salmin',
+    subtitle: '사이민',
+    desc: '하와이 로컬 라면/국수.',
+    images: [
+      { src: 'assets/images/p11.jpg', caption: '농장 노동자 간식에서 시작.' },
+    ],
+  },
+  manapua: {
+    title: 'Manapua',
+    subtitle: '마나푸아',
+    desc: '차슈가 들어간 하와이식 찐빵.',
+    images: [{ src: 'assets/images/p12.jpg', caption: '중국 이민 문화 흔적.' }],
+  },
+  waikiki: {
+    title: 'Waikiki Beach',
+    subtitle: '와이키키 해변',
+    desc: '오아후 대표 해변.',
+    images: [{ src: 'assets/images/p13.jpg', caption: '하와이 관광 중심.' }],
   },
 };
 
