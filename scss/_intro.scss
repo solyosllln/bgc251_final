@@ -102,9 +102,9 @@
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 
-  /* ✅ 스냅 시 중앙 여백 확보 */
-  scroll-padding-left: 50vw;
-  scroll-padding-right: 50vw;
+  /* ✅ 카드 너비 기준으로 중앙 맞춤 */
+  --card-half: clamp(140px, 17vw, 210px);
+  scroll-padding-inline: var(--card-half);
 
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -112,7 +112,6 @@
     height: 0;
   }
 }
-
 /* ---------------------------------------------------------
    트랙
 --------------------------------------------------------- */
@@ -120,16 +119,14 @@
   height: 100%;
   display: flex;
   align-items: center;
-  gap: 7vw;
-  padding: 0 8vw;
+  gap: clamp(24px, 6vw, 90px);
 
-  /* ✅ 양 끝 스페이서 */
-  &::before,
-  &::after {
-    content: '';
-    flex: 0 0 50vw;
-    height: 1px;
-  }
+  padding-inline: var(--card-half);
+}
+
+.intro-track::before,
+.intro-track::after {
+  content: none;
 }
 
 /* ---------------------------------------------------------

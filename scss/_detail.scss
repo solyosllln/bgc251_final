@@ -1,44 +1,79 @@
-/* DETAIL OVERLAY (click only) */
+/* =========================================================
+   DETAIL OVERLAY (click only)
+   - 오른쪽 상세 오버레이
+   - 스크롤 가능 + 커스텀 스크롤바
+========================================================= */
+
+/* DETAIL OVERLAY */
 .detail-overlay {
   position: absolute;
   inset: 0;
   background: #fff;
   z-index: 3;
+
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
-  overflow-y: auto;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
   padding: 24px 24px calc(24px + var(--runfooter-h));
-  scrollbar-width: none;
+
+  /* ✅ 커스텀 스크롤바 (Firefox) */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
 
   &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.45);
   }
 
+  /* ✅ 오버레이 열림 상태 */
   &.is-open {
     opacity: 1;
     pointer-events: auto;
   }
 }
 
+/* ---------------------------------------------------------
+   CLOSE 버튼
+--------------------------------------------------------- */
 .detail-close {
   position: sticky;
   top: 0;
   margin-left: auto;
-  display: block;
+  display: inline-block;
+  float: right; /* ✅ 오른쪽에 붙여 고정 */
+
   border: 1px solid #111;
   background: #fff;
   font-size: 11px;
   letter-spacing: 0.1em;
   padding: 8px 12px;
   cursor: pointer;
+  z-index: 5;
 }
 
+/* ---------------------------------------------------------
+   내용 래핑
+--------------------------------------------------------- */
 .detail-content {
   padding-top: 14px;
 }
 
+/* ---------------------------------------------------------
+   타이포
+--------------------------------------------------------- */
 .detail-title {
   font-size: 28px;
   margin: 0 0 6px;
@@ -56,7 +91,9 @@
   margin-bottom: 18px;
 }
 
-/* 사진 + 캡션 */
+/* ---------------------------------------------------------
+   사진 + 캡션
+--------------------------------------------------------- */
 .detail-gallery {
   display: grid;
   gap: 18px;
@@ -83,4 +120,35 @@
   margin-top: 4px;
   font-size: 11px;
   opacity: 0.55;
+}
+
+/* ---------------------------------------------------------
+   반응형
+--------------------------------------------------------- */
+@media (max-width: 900px) {
+  .detail-overlay {
+    padding: 18px 16px calc(18px + var(--runfooter-h));
+  }
+
+  .detail-title {
+    font-size: 24px;
+  }
+
+  .detail-desc {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-overlay {
+    padding: 14px 12px calc(14px + var(--runfooter-h));
+  }
+
+  .detail-title {
+    font-size: 22px;
+  }
+
+  .detail-caption {
+    font-size: 13px;
+  }
 }

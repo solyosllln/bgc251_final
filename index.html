@@ -4,33 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hawaii Intro</title>
-    <head>
-      <!-- 기본 favicon -->
-      <link rel="icon" href="assets/favicon/favicon.ico" />
 
-      <!-- PNG 버전-->
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="assets/favicon/favicon-32x32.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="assets/favicon/favicon-16x16.png"
-      />
+    <!-- ===== Favicon ===== -->
+    <link rel="icon" href="assets/favicon/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/favicon/apple-touch-icon.png"
+    />
 
-      <!-- iOS 홈화면 아이콘(선택) -->
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="assets/favicon/apple-touch-icon.png"
-      />
-
-      <title>HAWAII</title>
-    </head>
+    <!-- ===== CSS ===== -->
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
@@ -41,10 +36,8 @@
         <img src="assets/logo/intro-logo.png" alt="Hawaii Logo" />
       </button>
 
-      <!-- 상단 중앙 ENTER 버튼 -->
-      <button class="intro-enter" id="introEnter" aria-label="Enter main page">
-        WELCOME TO HAWAII
-      </button>
+      <!-- 우상단 ENTER 버튼 -->
+      <button class="intro-enter" id="introEnter">WELCOME TO HAWAII</button>
 
       <!-- 상단 작은 설명 -->
       <div class="intro-topcopy">
@@ -52,23 +45,17 @@
         <p class="intro-topcopy-sub">intro page</p>
       </div>
 
-      <!--가로 슬라이드 영역 -->
-      <section
-        class="intro-gallery"
-        id="introGallery"
-        aria-label="intro slider"
-      >
+      <!-- 가로 슬라이드 영역 -->
+      <section class="intro-gallery" id="introGallery">
         <div class="intro-track" id="introTrack">
           <!-- SLIDE 1 -->
           <article class="intro-card">
             <div class="intro-card-head">
               <span class="intro-card-index">0001</span>
             </div>
-
             <div class="intro-card-frame">
               <img src="assets/images/intro/i1.png" alt="Spam Musubi" />
             </div>
-
             <div class="intro-card-foot">
               <p class="intro-card-title">Spam Musubi</p>
               <p class="intro-card-sub">스팸무스비</p>
@@ -80,11 +67,9 @@
             <div class="intro-card-head">
               <span class="intro-card-index">0002</span>
             </div>
-
             <div class="intro-card-frame">
-              <img src="assets/images/intro/i2.png" alt="Poke" />
+              <img src="assets/images/intro/i2.png" alt="Plate Lunch" />
             </div>
-
             <div class="intro-card-foot">
               <p class="intro-card-title">platelunch</p>
               <p class="intro-card-sub">플레이트런치</p>
@@ -96,11 +81,9 @@
             <div class="intro-card-head">
               <span class="intro-card-index">0003</span>
             </div>
-
             <div class="intro-card-frame">
-              <img src="assets/images/intro/i3.png" alt="Plate Lunch" />
+              <img src="assets/images/intro/i3.png" alt="Waikiki Beach" />
             </div>
-
             <div class="intro-card-foot">
               <p class="intro-card-title">waikiki</p>
               <p class="intro-card-sub">와이키키해변</p>
@@ -112,11 +95,9 @@
             <div class="intro-card-head">
               <span class="intro-card-index">0004</span>
             </div>
-
             <div class="intro-card-frame">
-              <img src="assets/images/intro/i4.png" alt="Plate Lunch" />
+              <img src="assets/images/intro/i4.png" alt="Poke" />
             </div>
-
             <div class="intro-card-foot">
               <p class="intro-card-title">Poke</p>
               <p class="intro-card-sub">포케</p>
@@ -128,11 +109,9 @@
             <div class="intro-card-head">
               <span class="intro-card-index">0005</span>
             </div>
-
             <div class="intro-card-frame">
-              <img src="assets/images/intro/i5.png" alt="Plate Lunch" />
+              <img src="assets/images/intro/i5.png" alt="Pineapple" />
             </div>
-
             <div class="intro-card-foot">
               <p class="intro-card-title">Pineapple</p>
               <p class="intro-card-sub">파인애플</p>
@@ -144,57 +123,49 @@
             <div class="intro-card-head">
               <span class="intro-card-index">0006</span>
             </div>
-
             <div class="intro-card-frame">
-              <img src="assets/images/intro/i6.png" alt="Plate Lunch" />
+              <img src="assets/images/intro/i6.png" alt="Shave ice" />
             </div>
-
             <div class="intro-card-foot">
               <p class="intro-card-title">Shave ice</p>
               <p class="intro-card-sub">쉐이브아이스</p>
             </div>
           </article>
 
-          <!-- SLIDE 6 -->
+          <!-- SLIDE 7 -->
           <article class="intro-card">
             <div class="intro-card-head">
               <span class="intro-card-index">0007</span>
             </div>
-
             <div class="intro-card-frame">
-              <img src="assets/images/intro/i7.png" alt="Plate Lunch" />
+              <img src="assets/images/intro/i7.png" alt="Saimin" />
             </div>
-
             <div class="intro-card-foot">
               <p class="intro-card-title">Saimin</p>
               <p class="intro-card-sub">사이민</p>
             </div>
           </article>
 
-          <!-- SLIDE 6 -->
+          <!-- SLIDE 8 -->
           <article class="intro-card">
             <div class="intro-card-head">
               <span class="intro-card-index">0008</span>
             </div>
-
             <div class="intro-card-frame">
-              <img src="assets/images/intro/i8.png" alt="Plate Lunch" />
+              <img src="assets/images/intro/i8.png" alt="Loco moco" />
             </div>
-
             <div class="intro-card-foot">
               <p class="intro-card-title">locomoco</p>
               <p class="intro-card-sub">로코모코</p>
             </div>
           </article>
-
-          <!-- 필요하면 계속 추가 -->
         </div>
       </section>
 
-      <!--하단 중앙 도트 -->
-      <nav class="intro-dots" id="introDots" aria-label="slide dots"></nav>
+      <!-- 하단 중앙 도트 -->
+      <nav class="intro-dots" id="introDots"></nav>
 
-      <!--우하단 화살표 -->
+      <!-- 우하단 화살표 -->
       <div class="intro-arrows">
         <button class="intro-arrow" id="introPrev" aria-label="previous">
           ←
@@ -202,13 +173,13 @@
         <button class="intro-arrow" id="introNext" aria-label="next">→</button>
       </div>
 
-      <!-- 하단 힌트 -->
       <div class="intro-hint">
         해당 이미지는 Midjourney로 제작된 이미지입니다.
       </div>
     </main>
 
-    <div id="cursor-layer" aria-hidden="true"></div>
+    <div id="cursor-layer"></div>
+
     <script src="js/script.js"></script>
   </body>
 </html>
