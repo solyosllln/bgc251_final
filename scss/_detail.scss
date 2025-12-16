@@ -150,5 +150,28 @@
 
   .detail-caption {
     font-size: 13px;
+    white-space: pre-line;
+  }
+  .detail-caption-wrap {
+    margin-top: 10px;
+  }
+
+  .detail-caption {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #111;
+    opacity: 0.9;
+  }
+
+  .detail-caption-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #111;
+
+    li + li {
+      margin-top: 6px;
+    }
   }
 }

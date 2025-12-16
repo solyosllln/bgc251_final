@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <link rel="stylesheet" href="css/style.css" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hawaii</title>
+
     <link rel="stylesheet" href="css/style.css" />
 
-    <!-- 기본 favicon -->
+    <!-- favicon -->
     <link rel="icon" href="assets/favicon/favicon.ico" />
-
-    <!-- PNG 버전-->
     <link
       rel="icon"
       type="image/png"
@@ -37,21 +35,18 @@
 
       <div class="topbar-right">
         <div class="topbar-right-text">
-          <br />
-          <a href="https://youtu.be/MLAPL3wwxjo?si=_Ovid4tDBIT07fXM"
-            >하와이에 일본인이 많은 이유</a
-          >
+          <a href="https://youtu.be/MLAPL3wwxjo?si=_Ovid4tDBIT07fXM">
+            하와이에 일본인이 많은 이유
+          </a>
         </div>
 
-        <!-- 헤더 안에 붙는 유튜브 뱃지 -->
         <a
           class="yt-badge"
           href="https://youtu.be/MLAPL3wwxjo?si=_Ovid4tDBIT07fXM"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="유튜브로 이동"
         >
-          <img src="assets/logo/youtube-badge.png" alt="YouTube link badge" />
+          <img src="assets/logo/youtube-badge.png" alt="YouTube" />
         </a>
       </div>
     </header>
@@ -158,7 +153,7 @@
             <img src="assets/images/p10.jpg" alt="Butter Mochi" />
           </figure>
           <figure class="gallery-item" id="g11">
-            <img src="assets/images/p11.jpg" alt="Salmin" />
+            <img src="assets/images/p11.jpg" alt="Saimin" />
           </figure>
           <figure class="gallery-item" id="g12">
             <img src="assets/images/p12.jpg" alt="Manapua" />
@@ -168,14 +163,18 @@
           </figure>
         </div>
 
-        <article id="detailOverlay" class="detail-overlay" aria-hidden="true">
-          <button id="detailClose" class="detail-close">CLOSE</button>
+        <!-- 상세 오버레이: 기본 hidden으로 제어 -->
+        <article id="detailOverlay" class="detail-overlay" hidden>
+          <button id="detailClose" class="detail-close" type="button">
+            CLOSE
+          </button>
           <div id="detailContent" class="detail-content"></div>
         </article>
       </section>
     </main>
+
     <!-- ===== Running Footer Bar ===== -->
-    <footer class="run-footer" aria-label="site credits">
+    <footer class="run-footer">
       <div class="run-track">
         <div class="run-text">
           REFERENCES • Go Hawaii – A Brief History of the Hawaiian Islands •
@@ -187,8 +186,8 @@
           Census Diversity
         </div>
 
-        <!-- 흘러가는 밑에 바 -->
-        <div class="run-text" aria-hidden="true">
+        <!-- 시각적으로만 반복용 -->
+        <div class="run-text" hidden>
           REFERENCES • Go Hawaii – A Brief History of the Hawaiian Islands •
           Japanese American National Museum (JANM) – Textured Lives: Japanese
           Immigration to Hawai‘i • U.S. National Park Service – Hawaii’s Other
@@ -200,8 +199,8 @@
       </div>
     </footer>
 
-    <div id="float-layer" aria-hidden="true"></div>
-    <div id="cursor-layer" aria-hidden="true"></div>
+    <div id="float-layer"></div>
+    <div id="cursor-layer"></div>
 
     <script src="js/script.js"></script>
   </body>
