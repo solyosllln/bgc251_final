@@ -24,7 +24,7 @@
   </head>
 
   <body>
-    <!-- ===== Top Header Bar ===== -->
+    <!-- Top Header -->
     <header class="topbar">
       <div class="topbar-left">HAWAII</div>
 
@@ -34,26 +34,30 @@
       </div>
 
       <div class="topbar-right">
-        <div class="topbar-right-text">
-          <a href="https://youtu.be/MLAPL3wwxjo?si=_Ovid4tDBIT07fXM">
-            하와이에 일본인이 많은 이유
-          </a>
-        </div>
+        <a
+          class="topbar-right-text"
+          href="https://youtu.be/MLAPL3wwxjo?si=_Ovid4tDBIT07fXM"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          하와이에 일본인이 많은 이유
+        </a>
 
         <a
           class="yt-badge"
           href="https://youtu.be/MLAPL3wwxjo?si=_Ovid4tDBIT07fXM"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="YouTube 링크 열기"
         >
           <img src="assets/logo/youtube-badge.png" alt="YouTube" />
         </a>
       </div>
     </header>
 
-    <!-- ===== Main Split Layout ===== -->
+    <!-- Main -->
     <main class="split">
-      <!-- 왼쪽 -->
+      <!-- Left: List -->
       <section class="left">
         <div class="left-inner">
           <div class="section-label">Hawaii culture</div>
@@ -119,7 +123,7 @@
         </div>
       </section>
 
-      <!-- 오른쪽 -->
+      <!-- Right: Gallery + Detail -->
       <section class="right">
         <div class="gallery" id="gallery">
           <figure class="gallery-item" id="g1">
@@ -163,7 +167,7 @@
           </figure>
         </div>
 
-        <!-- 상세 오버레이: 기본 hidden으로 제어 -->
+        <!-- Detail Overlay -->
         <article id="detailOverlay" class="detail-overlay" hidden>
           <button id="detailClose" class="detail-close" type="button">
             CLOSE
@@ -173,10 +177,10 @@
       </section>
     </main>
 
-    <!--  Footer Bar  -->
+    <!-- Footer: Running References -->
     <footer class="run-footer">
       <div class="run-track">
-        <div class="run-text">
+        <div class="run-text" aria-label="참고문헌">
           REFERENCES • Go Hawaii – A Brief History of the Hawaiian Islands •
           Japanese American National Museum (JANM) – Textured Lives: Japanese
           Immigration to Hawai‘i • U.S. National Park Service – Hawaii’s Other
@@ -186,6 +190,7 @@
           Census Diversity
         </div>
 
+        <!-- 무한 롤링용 복제본(레이아웃 유지) -->
         <div class="run-text" hidden>
           REFERENCES • Go Hawaii – A Brief History of the Hawaiian Islands •
           Japanese American National Museum (JANM) – Textured Lives: Japanese
@@ -201,6 +206,7 @@
     <div id="float-layer"></div>
     <div id="cursor-layer"></div>
 
-    <script src="js/script.js?v=20251218-1"></script>
+    <!-- script.js 내부에서 detailData.js를 import 하므로 module로 로드 -->
+    <script type="module" src="js/script.js?v=20251218-1"></script>
   </body>
 </html>
